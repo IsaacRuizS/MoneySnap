@@ -1,0 +1,64 @@
+/*CSS PÁGINA REGISTRO*/
+
+.contenedor-principal {
+    min-height: 100vh;
+}
+
+.tarjeta-formulario {
+    width: 100%;
+    max-width: 400px;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.boton-registro {
+    background-color: #28976E !important;
+}
+
+.enlace {
+    color: #28976E !important;
+    text-decoration: none;
+}
+
+/*CSS PÁGINA HOME*/
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+}
+
+.bg-money {
+  background-color: #28976E !important;
+}
+
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  border-right: 1px solid #dee2e6;
+}
+
+.sidebar .nav-link {
+  color: #333;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  color: #28976E;
+  background-color: #e7f7f0;
+  border-radius: 5px;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+.card {
+  border-width: 2px;
+}
