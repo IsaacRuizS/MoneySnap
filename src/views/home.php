@@ -22,31 +22,7 @@
 </header>
 
   <div class="d-flex">
-    <aside class="sidebar bg-light p-3">
-      <ul class="nav flex-column">
-        <li class="nav-item mb-2">
-          <a class="nav-link active" href="#">📊 Inicio</a>
-        </li>
-         <li class="nav-item mb-2">
-          <a class="nav-link" href="#">💰 Ahorros</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="#">➕ Ingresos</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="#">➖ Gastos</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="#">💳 Transacciones</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="#">📈 Reportes</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="#">👥 Usuarios</a>
-        </li>
-      </ul>
-    </aside>
+    <?php require_once '../components/sidebar.php'; ?>
 
     <main class="main-content p-4 w-100">
       <h2 class="mb-4">Resumen General</h2>

@@ -62,3 +62,29 @@ body {
 .card {
   border-width: 2px;
 }
+
+/* Vista de Reportes */
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  margin-bottom: 2rem;
+}
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* Vista de Ahorros */
+
+.savings-card {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.savings-card:hover {
+  transform: translateY(-2px);
+}
+.pig-icon {
+  font-size: 3rem;
+  color: #ff69b4;
+}
