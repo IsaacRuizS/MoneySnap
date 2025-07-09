@@ -1,7 +1,7 @@
 <aside class="sidebar bg-light p-3">
     <ul class="nav flex-column">
         <li class="nav-item mb-2">
-            <a class="nav-link" href="home.php">📊 Inicio</a>
+            <a class="nav-link" href="home.php">🏠 Inicio</a>
         </li>
         <li class="nav-item mb-2">
             <a class="nav-link" href="savings.php">💰 Ahorros</a>

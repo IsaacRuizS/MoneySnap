@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <?php require_once '../components/head_common.php'; ?>
     <title>Registro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="icon" type="image/png" href="../assets/MoneySnapLogo.png">
 </head>
 <body class="bg-white">
     <div class="container d-flex justify-content-center align-items-center contenedor-principal">
@@ -24,7 +21,7 @@
                     <input type="text" name="nombre" class="form-control" id="nombre" required>
                 </div>
 
-                 <div class="mb-3">
+                   <div class="mb-3">
                     <label for="apellido" class="form-label">Apellido</label>
                     <input type="text" name="apellido" class="form-control" id="apellido" required>
                 </div>
