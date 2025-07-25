@@ -2,7 +2,7 @@
 
 $servername = "localhost";
 $dbusername = "root";
-$dbpassword = "10Ruiz30*";
+$dbpassword = "your_password";
 $database = "money_snap";
 
 $conn = new mysqli($servername, $dbusername, $dbpassword,$database);
