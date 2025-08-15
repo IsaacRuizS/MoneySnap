@@ -1,5 +1,5 @@
 <?php
-    session_start();
+   session_start();
     if (!isset($_SESSION['user_id'])) {
         header("Location: login.php");
         exit;
@@ -28,7 +28,7 @@
                     <div class="card border-success">
                         <div class="card-body">
                             <h5 class="card-title text-success">Total Ingresos</h5>
-                            <p class="card-text fs-4">₡0.00</p>
+                            <p class="card-text fs-4">₡125.000</p>
                         </div>
                     </div>
                 </div>
@@ -37,32 +37,41 @@
                     <div class="card border-danger">
                         <div class="card-body">
                             <h5 class="card-title text-danger">Total Gastos</h5>
-                            <p class="card-text fs-4">₡0.00</p>
+                            <p class="card-text fs-4">₡5.000</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-5">
-                <h4 class="mb-3">Transacciones Recientes</h4>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col">Categoría</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Monto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                // Aquí irá el codigo PHP para conexion con DB
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+<div class="mt-5">
+    <h4 class="mb-3">Tipo de Cambio</h4>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card border-success shadow-sm p-3 text-center">
+                <div class="fs-1">⇩</div>
+                <h5 class="fw-bold text-success">Compra</h5>
+                <p class="fs-3">₡495</p>
+                <small class="text-muted">21 ago 2025 • Ventanilla</small>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-danger shadow-sm p-3 text-center">
+                <div class="fs-1">⇧</div>
+                <h5 class="fw-bold text-danger">Venta</h5>
+                <p class="fs-3">₡509</p>
+                <small class="text-muted">21 ago 2025 • Ventanilla</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4 p-3 bg-light">
+        <h6>Referencia BCCR</h6>
+        <p class="mb-1">Compra: ₡501.85 • Venta: ₡507.08</p>
+        <small class="text-muted">Fuente oficial – Banco Central de Costa Rica</small>
+    </div>
+</div>
+
+
             </div>
         </main>
 
