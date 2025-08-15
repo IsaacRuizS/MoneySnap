@@ -13,8 +13,11 @@ switch ($action) {
     case 'register':
         $auth->register();
         break;
-    case 'logout':
-        $auth->logout();
+    case 'getUser':
+        $auth->getUser();
+        break;
+    case 'updateUser':
+        $auth->updateUser();
         break;
     default:
         echo json_encode(['status' => 'error', 'message' => 'Ruta no válida']);

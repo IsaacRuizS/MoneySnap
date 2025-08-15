@@ -19,7 +19,7 @@
             <a class="nav-link" href="reports.php">📈 Reportes</a>
         </li>
         <li class="nav-item mb-2">
-            <a class="nav-link" href="users.php">👥 Usuarios</a>
+            <a class="nav-link" href="user.php">👥 Mi cuenta</a>
         </li>
     </ul>
 </aside>
