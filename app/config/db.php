@@ -1,12 +1,19 @@
-<?php 
+<?php
 
-$servername = "localhost";
-$dbusername = "root";
-$dbpassword = "your_password";
-$database = "money_snap";
+class Database {
+    public static function connect() {
+        $servername = "localhost";
+        $dbusername = "root";
+        $dbpassword = "yout_password";
+        $database = "moneysnap";
+        $port = 3308;
 
-$conn = new mysqli($servername, $dbusername, $dbpassword,$database);
+        $conn = new mysqli($servername, $dbusername, $dbpassword, $database, $port);
 
-if($conn->connect_error){
-    die("error de base de datos ".$conn->connect_error);
+        if ($conn->connect_error) {
+            die("Database connection error: " . $conn->connect_error);
+        }
+
+        return $conn;
+    }
 }
