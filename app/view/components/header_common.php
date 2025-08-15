@@ -4,7 +4,7 @@
             <img src="../assets/MoneySnapLogo.png" alt="MoneySnap Logo" style="height: 60px; border-radius: 10px;">
         </a>
         <div class="d-flex">
-            <a href="login.php" class="btn btn-sm btn-outline-light">Cerrar sesión</a>
+            <a href="logout.php" class="btn btn-sm btn-outline-light">Cerrar sesión</a>
         </div>
     </div>
 </header>
