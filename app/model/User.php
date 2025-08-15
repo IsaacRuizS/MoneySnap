@@ -1,58 +1,73 @@
 <?php
-require_once("../config/db.php");
 
-class User {
+require_once __DIR__ . '/../config/db.php';
 
-    public static function register($name, $email, $password) {
-        global $conn;
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO Users (NAME, EMAIL, PASSWORD, CREATED_AT) VALUES (?, ?, ?, NOW())");
-        $stmt->bind_param("sss", $name, $email, $hash);
-        return $stmt->execute();
+class User
+{
+    private mysqli $db;
+
+    public function __construct() {
+        $this->db = Database::connect();
     }
 
-    public static function login($email, $password) {
-
-        global $conn;
-        $stmt = $conn->prepare("SELECT * FROM Users WHERE EMAIL = ?");
+    public function login(string $email, string $password): bool {
+        $stmt = $this->db->prepare(
+            "SELECT `USER_ID`,`NAME`,`EMAIL`,`PASSWORD`
+            FROM `Users` WHERE `EMAIL` = ? AND (`DELETED_AT` IS NULL) LIMIT 1"
+        );
         $stmt->bind_param("s", $email);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
+        $row = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
 
-        if ($user && password_verify($password, $user['PASSWORD'])) {
-            return $user;
+        if (!$row || !password_verify($password, $row['PASSWORD'])) {
+            return false;
         }
 
-        return false;
+        if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+        $_SESSION['user_id'] = (int)$row['USER_ID'];
+        $_SESSION['name']    = $row['NAME'];
+        $_SESSION['email']   = $row['EMAIL'];
+        return true;
     }
 
-    public static function findById($id) {
-        global $conn;
-        $stmt = $conn->prepare("SELECT * FROM Users WHERE USER_ID = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_assoc();
-    }
+    public function register(string $name, string $lastName, string $email, string $password): bool {
+        
+        //  rechazar duplicados
+        $chk = $this->db->prepare("SELECT 1 FROM `Users` WHERE `EMAIL` = ? LIMIT 1");
+        $chk->bind_param("s", $email);
+        $chk->execute();
+        $chk->store_result();
+        if ($chk->num_rows > 0) { $chk->close(); return false; }
+        $chk->close();
 
-    public static function all() {
-        global $conn;
-        $result = $conn->query("SELECT * FROM Users");
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $sql  = "INSERT INTO `Users` (`NAME`,`LAST_NAME`,`EMAIL`,`PASSWORD`,`CREATED_AT`,`UPDATED_AT`,`DELETED_AT`)
+                VALUES (?,?,?,?,NOW(),NULL,NULL)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("ssss", $name, $lastName, $email, $hash);
+        $ok = $stmt->execute();
+        $stmt->close();
+        return $ok;
+    } 
 
-    public static function update($id, $name, $email, $password = null) {
-        global $conn;
-    
-        if ($password) {
+    public function update(int $id, string $name, string $lastName, string $email, ?string $password = null): bool {
+        if ($password !== null && $password !== '') {
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("UPDATE Users SET NAME = ?, EMAIL = ?, PASSWORD = ?, UPDATED_AT = NOW() WHERE USER_ID = ?");
-            $stmt->bind_param("sssi", $name, $email, $hash, $id);
+            $sql  = "UPDATE `Users`
+                    SET `NAME`=?, `LAST_NAME`=?, `EMAIL`=?, `PASSWORD`=?, `UPDATED_AT`=NOW()
+                    WHERE `USER_ID`=? AND (`DELETED_AT` IS NULL)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("sssi", $name, $lastName, $email, $hash, $id);
         } else {
-            $stmt = $conn->prepare("UPDATE Users SET NAME = ?, EMAIL = ?, UPDATED_AT = NOW() WHERE USER_ID = ?");
-            $stmt->bind_param("ssi", $name, $email, $id);
+            $sql  = "UPDATE `Users`
+                    SET `NAME`=?, `LAST_NAME`=?, `EMAIL`=?, `UPDATED_AT`=NOW()
+                    WHERE `USER_ID`=? AND (`DELETED_AT` IS NULL)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("ssi", $name, $lastName, $email, $id);
         }
-    
-        return $stmt->execute();
+        $ok = $stmt->execute();
+        $stmt->close();
+        return $ok;
     }
 }
