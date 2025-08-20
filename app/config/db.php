@@ -6,7 +6,7 @@ class Database {
         $dbusername = "root";
         $dbpassword = "";
         $database = "moneysnap";
-        $port = 3308;
+        $port = 3306;
 
         $conn = new mysqli($servername, $dbusername, $dbpassword, $database, $port);
 

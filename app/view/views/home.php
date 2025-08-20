@@ -23,51 +23,28 @@
             <h2 class="mb-4">Resumen General</h2>
             <p class="text-muted">Bienvenido a tu panel de flujo de caja digital. Aquí podrás gestionar tus ingresos, gastos y visualizar tu situación financiera.</p>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="card border-success">
-                        <div class="card-body">
-                            <h5 class="card-title text-success">Total Ingresos</h5>
-                            <p class="card-text fs-4">₡125.000</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <div class="card border-danger">
-                        <div class="card-body">
-                            <h5 class="card-title text-danger">Total Gastos</h5>
-                            <p class="card-text fs-4">₡5.000</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 <div class="mt-5">
-    <h4 class="mb-3">Tipo de Cambio</h4>
+    <h4 id="fecha" class="mb-3">Tipo de Cambio</h4>
     <div class="row g-3">
         <div class="col-md-6">
             <div class="card border-success shadow-sm p-3 text-center">
                 <div class="fs-1">⇩</div>
                 <h5 class="fw-bold text-success">Compra</h5>
-                <p class="fs-3">₡495</p>
-                <small class="text-muted">21 ago 2025 • Ventanilla</small>
+                <p id="compra" class="fs-3">₡495</p>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card border-danger shadow-sm p-3 text-center">
                 <div class="fs-1">⇧</div>
                 <h5 class="fw-bold text-danger">Venta</h5>
-                <p class="fs-3">₡509</p>
-                <small class="text-muted">21 ago 2025 • Ventanilla</small>
+                <p id="venta" class="fs-3">₡509</p>
             </div>
         </div>
     </div>
 
     <div class="card mt-4 p-3 bg-light">
-        <h6>Referencia BCCR</h6>
-        <p class="mb-1">Compra: ₡501.85 • Venta: ₡507.08</p>
-        <small class="text-muted">Fuente oficial – Banco Central de Costa Rica</small>
+        <h6>Tipo de Cambio</h6>
+        <p id="tipoCambio" class="mb-1">Compra: ₡501.85 • Venta: ₡507.08</p>
     </div>
 </div>
 
@@ -76,5 +53,28 @@
         </main>
 
     </div>
+    <script>
+        const tipoCambio = document.getElementById('tipoCambio');
+        const compra = document.getElementById('compra');
+        const venta = document.getElementById('venta');
+        const fecha = document.getElementById('fecha');
+        const fechaActual = new Date();
+
+        async function obtenerTipoCambio() {
+            const resp = await fetch("https://tipodecambio.paginasweb.cr/api");
+            const data = await resp.json();
+            return data;
+        }
+
+        obtenerTipoCambio().then(data => {
+            tipoCambio.innerHTML = `Compra: ${data.compra} • Venta: ${data.venta}`;
+            compra.innerHTML = `₡${data.compra}`;
+            venta.innerHTML = `₡${data.venta}`;
+
+            const fechaFormateada = fechaActual.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            fecha.innerHTML = `Tipo de Cambio - ${fechaFormateada}`;
+        });
+
+    </script>
 </body>
 </html>
