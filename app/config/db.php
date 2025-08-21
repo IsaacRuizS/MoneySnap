@@ -4,9 +4,9 @@ class Database {
     public static function connect() {
         $servername = "localhost";
         $dbusername = "root";
-        $dbpassword = "";
+        $dbpassword = "10Ruiz30*";
         $database = "moneysnap";
-        $port = 3306;
+        $port = 3308;
 
         $conn = new mysqli($servername, $dbusername, $dbpassword, $database, $port);
 

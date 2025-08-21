@@ -1,73 +1,41 @@
 <?php
+
 require_once __DIR__ . '/../config/db.php';
 
-class Transaction {
+class Transaction
+{
+    private mysqli $db;
 
-    public static function create($userId, $amount, $type, $description, $category) {
-        $conn = Database::connect();
-        $stmt = $conn->prepare("INSERT INTO Transactions (USER_ID, AMOUNT, TYPE, DESCRIPTION, TRANSACTION_CATEGORY_ID, CREATED_AT) VALUES (?, ?, ?, ?, ?, NOW())");
-        
-        // Obtener el ID de la categoría basado en el tipo
-        $categoryId = self::getCategoryIdByType($type);
-        
-        $stmt->bind_param("idssi", $userId, $amount, $type, $description, $categoryId);
-        $result = $stmt->execute();
-        
-        if ($result) {
-            $insertId = $conn->insert_id;
-            $conn->close();
-            return $insertId;
+    public function __construct() {
+        $this->db = Database::connect();
+    }
+
+    public function getAll(int $userId): array {
+        $sql = "SELECT 
+                    t.TRANSACTION_ID,
+                    t.AMOUNT,
+                    t.TYPE,
+                    t.DESCRIPTION,
+                    t.CREATED_AT,
+                    t.TRANSACTION_CATEGORY_ID,
+                    tc.NAME as CATEGORY
+                FROM `transactions` t
+                LEFT JOIN `transactioncategories` tc 
+                    ON t.TRANSACTION_CATEGORY_ID = tc.TRANSACTION_CATEGORY_ID
+                WHERE t.USER_ID = ? 
+                ORDER BY t.CREATED_AT DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $transactions = [];
+        while ($row = $res->fetch_assoc()) {
+            $transactions[] = $row;
         }
-        
-        $conn->close();
-        return false;
-    }
 
-    public static function getExpensesByUserId($id) {
-        $conn = Database::connect();
-        $stmt = $conn->prepare("SELECT * FROM Transactions WHERE USER_ID = ? AND TYPE = 'EXPENSE'");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $data = $result->fetch_assoc();
-        $conn->close();
-        return $data;
-    }
-
-    public static function findById($id) {
-        $conn = Database::connect();
-        $stmt = $conn->prepare("SELECT * FROM Transactions WHERE ID = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $data = $result->fetch_assoc();
-        $conn->close();
-        return $data;
-    }
-
-    public static function delete($id) {
-        $conn = Database::connect();
-        $stmt = $conn->prepare("DELETE FROM Transactions WHERE ID = ?");
-        $stmt->bind_param("i", $id);
-        $result = $stmt->execute();
-        $conn->close();
-        return $result;
-    }
-    
-    private static function getCategoryIdByType($type) {
-        $conn = Database::connect();
-        
-        // Mapeo de tipos a categorías
-        $categoryMap = [
-            'income' => 1,      // Ingresos
-            'expense' => 2,     // Gastos
-            'savings' => 3      // Ahorros
-        ];
-        
-        $categoryId = $categoryMap[$type] ?? 1; // Default a ingresos si no se encuentra
-        $conn->close();
-        
-        return $categoryId;
+        $stmt->close();
+        return $transactions;
     }
 }
-?>

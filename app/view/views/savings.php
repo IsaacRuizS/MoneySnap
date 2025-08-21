@@ -47,7 +47,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="card savings-card shadow-sm" onclick="abrirModalAhorros(<?php echo $saving['TRANSACTION_ID']; ?>, '<?php echo htmlspecialchars($saving['DESCRIPTION']); ?>', <?php echo $saving['AMOUNT']; ?>)">
                                 <div class="card-body text-center">
-                                    <div class="pig-icon mb-3">🐷</div>
+                                    <div class="pig-icon mb-3">📩</div>
                                     <h5 class="card-title"><?php echo htmlspecialchars($saving['DESCRIPTION']); ?></h5>
                                     <p class="card-text fs-4 text-success">&#8353; <?php echo number_format($saving['AMOUNT'], 0, ',', '.'); ?></p>
                                     <small class="text-muted">Creado: <?php echo date('d/m/Y', strtotime($saving['CREATED_AT'])); ?></small>
@@ -115,7 +115,7 @@
                         <div class="modal-body">
                             <input type="hidden" id="currentSavingsId">
                             <div class="text-center mb-4">
-                                <div class="pig-icon mb-2">🐷</div>
+                                <div class="pig-icon mb-2">📩</div>
                                 <h4 id="currentSavingsName">Nombre del Sobre</h4>
                                 <h3 class="text-success" id="currentSavingsAmount">&#8353; 0</h3>
                             </div>
