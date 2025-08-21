@@ -4,7 +4,7 @@ class Database {
     public static function connect() {
         $servername = "localhost";
         $dbusername = "root";
-        $dbpassword = "10Ruiz30*";
+        $dbpassword = "";
         $database = "moneysnap";
         $port = 3308;
 
