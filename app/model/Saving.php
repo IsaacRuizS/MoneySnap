@@ -2,10 +2,8 @@
 require_once __DIR__ . '/../config/db.php';
 
 class Saving {
-    public static function create($userId, $name, $amount) {
+    public static function create($userId, $name, $amount, $transactionCategoryId) {
         $conn = Database::connect();
-
-        $transactionCategoryId = 3;
         $type = 'savings';
 
         $stmt = $conn->prepare("INSERT INTO transactions (USER_ID, TRANSACTION_CATEGORY_ID, AMOUNT, DESCRIPTION, TYPE, CREATED_AT) VALUES (?,?,?,?,?,NOW())");

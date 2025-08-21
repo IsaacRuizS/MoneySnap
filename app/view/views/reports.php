@@ -4,6 +4,11 @@
         header("Location: login.php");
         exit;
     }
+
+    require_once '../../controller/ReportsController.php';
+    $reportsController = new ReportsController();
+    $response = $reportsController->getTransactions();
+    $transactions = $response['data'] ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,6 +20,8 @@
 
 <body>
     <?php require_once '../components/header_common.php'; ?>
+
+    <div style="display: none;" id="expensesInfo"><?php echo $transactions ?></div>
 
     <div class="d-flex">
         <?php require_once '../components/sidebar.php'; ?>
@@ -36,48 +43,6 @@
                     </div>
                 </div>
                 
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Gastos por Categoría</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <canvas id="expenseCategoryChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Resumen Mensual</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row text-center">
-                                <div class="col-md-3">
-                                    <h4 class="text-success">₡15,750</h4>
-                                    <p class="text-muted">Total Ingresos</p>
-                                </div>
-                                <div class="col-md-3">
-                                    <h4 class="text-danger">₡12,340</h4>
-                                    <p class="text-muted">Total Gastos</p>
-                                </div>
-                                <div class="col-md-3">
-                                    <h4 class="text-primary">₡3,410</h4>
-                                    <p class="text-muted">Balance</p>
-                                </div>
-                                <div class="col-md-3">
-                                    <h4 class="text-info">78%</h4>
-                                    <p class="text-muted">Tasa de Ahorro</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </main>
 

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../model/Saving.php';
+require_once __DIR__ . '/../model/TransactionCategory.php';
 
 class SavingsController {
     
@@ -12,8 +13,11 @@ class SavingsController {
         $saving = new Saving();
         $data = $saving->getUserSavings($_SESSION['user_id']);
 
+        $categories = new TransactionCategory();
+        $dataCategories = $categories->getCategories();
+
         if ($data) {
-            return ['status' => 'success', 'data' => $data];
+            return ['status' => 'success', 'data' => $data, 'categories' => $dataCategories];
         } else {
             return ['status' => 'success', 'data' => []];
         }
@@ -28,6 +32,7 @@ class SavingsController {
 
         $name = $_POST['name'] ?? '';
         $amount = floatval($_POST['amount'] ?? 0);
+        $transactionCategoryId = $_POST['transaction_category_id'] ?? 1;
 
         if (empty($name) || $amount <= 0) {
             header('Location: ../view/views/savings.php');
@@ -36,7 +41,7 @@ class SavingsController {
 
         $saving = new Saving();
         
-        if ($saving->create($_SESSION['user_id'], $name, $amount)) {
+        if ($saving->create($_SESSION['user_id'], $name, $amount, $transactionCategoryId)) {
             header('Location: ../view/views/savings.php');
         } else {
             header('Location: ../view/views/savings.php');

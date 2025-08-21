@@ -23,10 +23,13 @@ class Transaction {
         return false;
     }
 
-    public static function all() {
+    public static function getExpensesByUserId($id) {
         $conn = Database::connect();
-        $result = $conn->query("SELECT * FROM Transactions");
-        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt = $conn->prepare("SELECT * FROM Transactions WHERE USER_ID = ? AND TYPE = 'EXPENSE'");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
         $conn->close();
         return $data;
     }

@@ -9,6 +9,7 @@
     $savingsController = new SavingsController();
     $response = $savingsController->getUserSavings();
     $userSavings = $response['data'] ?? [];
+    $dataCategories = $response['categories'] ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -72,6 +73,19 @@
                                     <label for="savingsName" class="form-label">Nombre del Sobre</label>
                                     <input type="text" class="form-control" id="savingsName" name="name" required>
                                 </div>
+                                
+                                <div class="mb-3">
+                                    <label for="transactionCategory" class="form-label">Categoría de Ahorro</label>
+                                    <select class="form-control" id="transactionCategory" name="transaction_category_id" required>
+                                        <option value="">Seleccionar categoría</option>
+                                        <?php foreach ($dataCategories as $category): ?>
+                                                <option value="<?php echo $category['TRANSACTION_CATEGORY_ID']; ?>">
+                                                    <?php echo $category['NAME']; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                    </select>
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="savingsAmount" class="form-label">Monto Inicial (&#8353;)</label>
                                     <input type="number" class="form-control" id="savingsAmount" name="amount" min="0" required>
